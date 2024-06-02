@@ -1,0 +1,9 @@
+#editTaskContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#editTaskActions {
+  justify-content: end;
+}

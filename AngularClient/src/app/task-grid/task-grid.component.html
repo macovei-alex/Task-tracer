@@ -1,0 +1,14 @@
+<div class="task-columns">
+  <div class="task-column" *ngFor="let status of statuses">
+    <h2>{{ status }}</h2>
+    <div *ngFor="let task of taskList">
+      <div *ngIf="task.status === status">
+        <app-task-card
+          [task]="task"
+          (editTaskEvent)="editTask($event)"
+          (deleteTaskEvent)="deleteTask($event)"
+        ></app-task-card>
+      </div>
+    </div>
+  </div>
+</div>

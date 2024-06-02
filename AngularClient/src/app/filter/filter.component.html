@@ -1,0 +1,9 @@
+<div class="filter-buttons" *ngFor="let status of statusList">
+  <button
+    class="filter-button"
+    mat-raised-button
+    (click)="selectStatus(status)"
+  >
+    {{ status }}
+  </button>
+</div>

@@ -1,0 +1,15 @@
+<div class="buttons">
+  <button class="view-button" mat-button (click)="isList = true; reload()">
+    <mat-icon>list</mat-icon>
+  </button>
+  <button class="view-button" mat-button (click)="isList = false">
+    <mat-icon>grid_on</mat-icon>
+  </button>
+</div>
+
+<div *ngIf="isList === true">
+  <app-task-list [clearFilters]="clearListFiltersTrigger"></app-task-list>
+</div>
+<div *ngIf="isList === false">
+  <app-task-grid></app-task-grid>
+</div>

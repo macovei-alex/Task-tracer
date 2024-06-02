@@ -1,0 +1,33 @@
+<div class="form-container">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="label" for="taskName">Task Name</label>
+      <input
+        class="input"
+        class="form-control"
+        type="text"
+        id="taskName"
+        name="taskName"
+        [(ngModel)]="taskTitle"
+        required
+      />
+      <label class="label" for="taskDescription">Description</label>
+      <textarea
+        class="input"
+        class="form-control"
+        class="no-manual-resize"
+        id="taskDescription"
+        name="taskDescription"
+        [(ngModel)]="taskDescription"
+        rows="4"
+      ></textarea>
+      <label class="label" for="taskStatus">Status</label>
+      <app-drop-down-list
+        [options]="dropDownOptions"
+        (selectEventEmmiter)="onStatusChanged($event)"
+      ></app-drop-down-list>
+    </div>
+    <button mat-raised-button type="submit">Submit</button>
+    <button mat-raised-button (click)="this.cancel = true">Cancel</button>
+  </form>
+</div>

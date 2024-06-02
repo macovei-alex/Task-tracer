@@ -1,0 +1,8 @@
+.filter-buttons {
+  display: table-cell;
+  max-width: 600;
+}
+
+.filter-button {
+  margin: 8px;
+}
