@@ -18,7 +18,6 @@ import { EditTaskComponent } from "../edit-task/edit-task.component";
 import { NotificationService } from "../services/notification.service";
 import { Subscription } from "rxjs";
 import { LoggingService } from "../services/logging.service";
-import { ResourceLoader } from "@angular/compiler";
 
 @Component({
   selector: "app-task-list",
@@ -31,7 +30,7 @@ export class TaskListComponent implements OnInit, OnChanges, OnDestroy {
   taskList!: Task[];
   filteredTasks: Task[] = [];
   selectedStatus: Status | undefined;
-  @Input() clearFilters!: boolean;
+  @Input() clearFilters!: number;
   private notificationSubscription!: Subscription;
 
   constructor(
@@ -97,7 +96,7 @@ export class TaskListComponent implements OnInit, OnChanges, OnDestroy {
         return;
       }
       this.taskService.editTask(<Task>result).subscribe((response) => {
-        console.log(response);
+        this.logger.info("TaskList edit task service response: ", response);
       });
       this.logger.info("TaskList edit task: ", <Task>result);
     });

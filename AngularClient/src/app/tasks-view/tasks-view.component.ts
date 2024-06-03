@@ -24,19 +24,14 @@ export class TasksViewComponent {
   isList: boolean = true;
   notificationMessage: string = "";
   listSelectedStatus: Status | undefined;
-  clearListFiltersTrigger: boolean = false;
+  clearListFiltersTrigger: number = 0;
 
-  constructor(
-    private chandeDeterctor: ChangeDetectorRef,
-    private logger: LoggingService
-  ) {
+  constructor(private logger: LoggingService) {
     this.logger.info("TasksView constructed");
   }
 
   reload(): void {
-    this.clearListFiltersTrigger = true;
-    this.chandeDeterctor.detectChanges();
-    this.clearListFiltersTrigger = false;
+    this.clearListFiltersTrigger++;
     this.logger.info("TasksView reloaded");
   }
 }
