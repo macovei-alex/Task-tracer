@@ -8,6 +8,7 @@ import { Output } from "@angular/core";
 import { EventEmitter } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { EditTaskComponent } from "../edit-task/edit-task.component";
+import { LoggingService } from "../services/logging.service";
 
 @Component({
   selector: "app-task-card",
@@ -21,7 +22,9 @@ export class TaskCardComponent {
   @Output() deleteTaskEvent: EventEmitter<string> = new EventEmitter();
   @Output() editTaskEvent: EventEmitter<Task> = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private logger: LoggingService) {
+    this.logger.info("TaskCard constructed");
+  }
 
   editTask(task: Task): void {
     const dialogRef = this.dialog.open(EditTaskComponent, {
@@ -33,10 +36,12 @@ export class TaskCardComponent {
         return;
       }
       this.editTaskEvent.emit(<Task>result);
+      this.logger.info("TaskCard edit task emitted");
     });
   }
 
   deleteTask(taskID: string): void {
     this.deleteTaskEvent.emit(taskID);
+    this.logger.info("TaskCard delete task emitted");
   }
 }

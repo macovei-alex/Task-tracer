@@ -5,6 +5,7 @@ import { TaskListComponent } from "../task-list/task-list.component";
 import { MatIcon } from "@angular/material/icon";
 import { CommonModule } from "@angular/common";
 import { FilterComponent } from "../filter/filter.component";
+import { LoggingService } from "../services/logging.service";
 
 @Component({
   selector: "app-tasks-view",
@@ -25,11 +26,17 @@ export class TasksViewComponent {
   listSelectedStatus: Status | undefined;
   clearListFiltersTrigger: boolean = false;
 
-  constructor(private chandeDeterctor: ChangeDetectorRef) {}
+  constructor(
+    private chandeDeterctor: ChangeDetectorRef,
+    private logger: LoggingService
+  ) {
+    this.logger.info("TasksView constructed");
+  }
 
   reload(): void {
     this.clearListFiltersTrigger = true;
     this.chandeDeterctor.detectChanges();
     this.clearListFiltersTrigger = false;
+    this.logger.info("TasksView reloaded");
   }
 }

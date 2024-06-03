@@ -3,6 +3,7 @@ import { Task } from "../models/task";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { NotificationService } from "./notification.service";
+import { LoggingService } from "./logging.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,8 +18,11 @@ export class TaskService {
 
   constructor(
     private httpClient: HttpClient,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private logger: LoggingService
+  ) {
+    this.logger.info("TaskService constructed");
+  }
 
   getTasks(): Observable<Task[]> {
     return this.httpClient.get<Task[]>(this.baseURL);

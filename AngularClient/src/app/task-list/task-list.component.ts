@@ -17,12 +17,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { EditTaskComponent } from "../edit-task/edit-task.component";
 import { NotificationService } from "../services/notification.service";
 import { Subscription } from "rxjs";
+import { LoggingService } from "../services/logging.service";
+import { ResourceLoader } from "@angular/compiler";
 
 @Component({
   selector: "app-task-list",
   standalone: true,
   imports: [CommonModule, FilterComponent, MatIconButton, MatIcon],
-  providers: [TaskService],
   templateUrl: "./task-list.component.html",
   styleUrl: "./task-list.component.css",
 })
@@ -36,35 +37,41 @@ export class TaskListComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private taskService: TaskService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private logger: LoggingService
+  ) {
+    this.logger.info("TaskList constructed");
+  }
 
   ngOnInit(): void {
     this.reloadTaskList();
     this.notificationSubscription =
       this.notificationService.notificationEmitter.subscribe((message) => {
-        console.log("Notification received: ", message);
+        this.logger.info("TaskList notification received: ", message);
         this.reloadTaskList();
       });
+    this.logger.info("TaskList initialized");
   }
 
   ngOnDestroy(): void {
     if (this.notificationSubscription !== undefined) {
       this.notificationSubscription.unsubscribe();
     }
+    this.logger.info("TaskList destroyed");
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["clearFilters"]) {
       this.changeShowingStatus(undefined);
     }
+    this.logger.info("TaskList changed");
   }
 
   reloadTaskList(): void {
     this.taskService.getTasks().subscribe((taskList: Task[]) => {
       this.taskList = taskList;
       this.changeShowingStatus(undefined);
-      console.log("Task list: ", this.taskList);
+      this.logger.info("TaskList tasks reloaded: ", this.taskList);
     });
   }
 
@@ -77,6 +84,7 @@ export class TaskListComponent implements OnInit, OnChanges, OnDestroy {
       );
     }
     this.selectedStatus = status;
+    this.logger.info("TaskList showing status changed: ", status);
   }
 
   editTask(task: Task): void {
@@ -91,14 +99,17 @@ export class TaskListComponent implements OnInit, OnChanges, OnDestroy {
       this.taskService.editTask(<Task>result).subscribe((response) => {
         console.log(response);
       });
+      this.logger.info("TaskList edit task: ", <Task>result);
     });
   }
 
   deleteTask(taskID: string | undefined): void {
-    if (taskID === undefined) return;
+    if (taskID === undefined) {
+      return;
+    }
 
     this.taskService.deleteTask(taskID).subscribe((response) => {
-      console.log("Delete task response: ", response);
+      this.logger.info("TaskList task deleted response: ", response);
 
       this.taskService.getTasks().subscribe((taskList: Task[]) => {
         this.taskList = taskList;

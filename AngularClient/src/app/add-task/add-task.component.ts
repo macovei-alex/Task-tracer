@@ -20,7 +20,6 @@ import { Option } from "../models/option";
     MatFormField,
     MatLabel,
   ],
-  providers: [TaskService],
   templateUrl: "./add-task.component.html",
   styleUrl: "./add-task.component.css",
 })
